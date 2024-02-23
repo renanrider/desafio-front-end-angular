@@ -1,0 +1,11 @@
+<a [routerLink]="'/pokemon-type/' + pokemonType" [state]="{ id: pokemonId }">
+  <div
+    class="flex flex-col items-center max-w-full h-full bg-yellow-400 p-3 border-b-4 border-yellow-600 active:border-b-0 active:translate-y-0.5 rounded-md overflow-hidden shadow-none card"
+  >
+    <h1
+      class="text-center capitalize m-0 text-gray-800 text-clip font-bold text-lg md:text-xl"
+    >
+      {{ pokemonType }}
+    </h1>
+  </div>
+</a>
