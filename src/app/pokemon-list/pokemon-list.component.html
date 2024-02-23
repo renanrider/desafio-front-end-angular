@@ -1,0 +1,31 @@
+<app-header
+  title="Tipos de Pokémon"
+  description="No mundo dos Pokémon, os tipos desempenham um papel fundamental nas batalhas e nas estratégias dos treinadores. Cada Pokémon possui um ou dois tipos que definem suas vantagens e desvantagens em combate. Esses tipos são baseados em elementos como fogo, água, planta, elétrico e outros, e cada um tem suas próprias vantagens e desvantagens em relação aos outros tipos."
+></app-header>
+
+<div class="p-3">
+  @if (!pokemontypes) {
+  <div
+    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 mt-2 mb-8"
+  >
+    @for (cardSkeleton of cardSkeletons; track cardSkeleton) {
+    <app-card-skeleton />
+    }
+  </div>
+  } @else {
+
+  <div
+    data-intro="pokemon-cards"
+    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 mt-2 mb-8"
+  >
+    @for (pokemontype of pokemontypes.results; track pokemontype.name; ) {
+    <app-card
+      [pokemonType]="pokemontype.name"
+      [url]="pokemontype.url"
+      backgroundColor="#feca1b"
+      class="min-h-fit"
+    />
+    }
+  </div>
+  }
+</div>
