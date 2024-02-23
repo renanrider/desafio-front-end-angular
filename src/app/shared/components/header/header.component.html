@@ -1,11 +1,7 @@
 <div class="w-full h-auto bg-blue-600">
   <div class="flex flex-row container p-3">
     @if (enableBackButtom) {
-    <button
-      class="sm:block mr-2"
-      (click)="back()"
-      data-testid="button-backButton"
-    >
+    <button data-testid="back-button" class="sm:block mr-2" (click)="back()">
       <i class="fa-solid fa-arrow-left text-white text-xl"></i>
     </button>
     }
