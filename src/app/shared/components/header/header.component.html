@@ -1,0 +1,19 @@
+<div class="w-full h-auto bg-blue-600">
+  <div class="flex flex-row container p-3">
+    @if (enableBackButtom) {
+    <button
+      class="sm:block mr-2"
+      (click)="back()"
+      data-testid="button-backButton"
+    >
+      <i class="fa-solid fa-arrow-left text-white text-xl"></i>
+    </button>
+    }
+    <h1 class="my-0 text-xl leading-snug font-bold text-white">
+      {{ title }}
+    </h1>
+  </div>
+  <p class="sm:flex text-base leading-snug font-normal text-slate-200 p-3">
+    {{ description }}
+  </p>
+</div>
