@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { PokemonDetailsService } from './pokemon-details.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HeaderComponent } from '../shared/components/header/header.component';
-import { DetailsPokemon } from './pokemon.interface';
+import { DetailsPokemon, Pokemon } from './pokemon.interface';
 import { CardDetailsComponent } from './card-details/card-details.component';
 import { CardDetailsSkeletonComponent } from './components/card-details-skeleton/card-details-skeleton.component';
-
-interface Pokemon {
-  name: string;
-  url: string;
-  thumbnail?: string | undefined;
-}
+import { PokemonDetailsService } from './pokemon-details.service';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -29,10 +23,9 @@ interface Pokemon {
 })
 export class PokemonDetailsComponent implements OnInit {
   currentIndex = 0;
-  pokemonDetails!: DetailsPokemon;
+  pokemonsData: Pokemon[] = [];
   pokemons: Pokemon[] = [];
   pokemonId!: number;
-  id!: number;
   pokemonType!: string;
   cardSkeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -45,24 +38,28 @@ export class PokemonDetailsComponent implements OnInit {
     this.pokemonType = paramMap.get('type') || '';
     const extras = this.router.getCurrentNavigation()?.extras.state || {};
     const { id } = extras;
-    this.id = id;
+    this.pokemonId = id;
   }
 
   ngOnInit(): void {
-    if (!this.id) return;
+    this.initData();
+  }
+
+  initData(): void {
+    if (!this.pokemonId) return;
     this.pokemonDetailsService
-      .getAllPokemonDetails(this.id)
+      .getAllPokemonDetails(this.pokemonId)
       .pipe(
-        tap((pokemonDetails: DetailsPokemon) => {
-          pokemonDetails.pokemon.forEach((pokemonDetail) => {
-            pokemonDetail.pokemon.thumbnail = this.generateThumbnailUrl(
-              pokemonDetail.pokemon.url
+        tap((detailsPokemon: DetailsPokemon) => {
+          detailsPokemon.pokemon.forEach((pokemonData: Pokemon) => {
+            pokemonData.pokemon.thumbnail = this.generateThumbnailUrl(
+              pokemonData.pokemon.url
             );
           });
         })
       )
       .subscribe((pokemonDetails) => {
-        this.pokemonDetails = pokemonDetails;
+        this.pokemonsData = pokemonDetails.pokemon;
         this.loadPokemons();
       });
   }
@@ -70,7 +67,7 @@ export class PokemonDetailsComponent implements OnInit {
   extractIdFromUrl(url: string): string | undefined {
     const regex: RegExp = /\/(\d+)\/$/;
     const match: RegExpExecArray | null = regex.exec(url);
-    return match?.[0].split('/')[1];
+    return match?.[1];
   }
 
   generateThumbnailUrl(url: string): string {
@@ -79,13 +76,10 @@ export class PokemonDetailsComponent implements OnInit {
   }
 
   loadPokemons(): void {
-    const endIndex = Math.min(
-      this.currentIndex + 10,
-      this.pokemonDetails.pokemon.length
-    );
+    const endIndex = Math.min(this.currentIndex + 10, this.pokemonsData.length);
     for (let index = this.currentIndex; index < endIndex; index++) {
-      const current = this.pokemonDetails.pokemon[index];
-      this.pokemons.push(current.pokemon);
+      const currentPokemon = this.pokemonsData[index];
+      this.pokemons.push(currentPokemon);
     }
     this.currentIndex = endIndex;
   }

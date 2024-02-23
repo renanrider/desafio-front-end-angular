@@ -19,16 +19,16 @@
       data-testid="pokemon-cards"
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-8"
     >
-      @for (pokemon of pokemons; track pokemon.name; ) {
+      @for (pokemonData of pokemons; track pokemonData.pokemon.name; ) {
       <app-card-details
         class="min-h-fit"
-        title="{{ pokemon.name }}"
-        thumbnail="{{ pokemon.thumbnail }}"
+        title="{{ pokemonData.pokemon.name }}"
+        thumbnail="{{ pokemonData.pokemon.thumbnail }}"
       ></app-card-details>
       }
     </div>
 
-    @if (this.pokemons.length !== this.pokemonDetails.pokemon.length) {
+    @if (this.pokemons.length !== this.pokemonsData.length) {
     <button
       data-testid="load-pokemons"
       (click)="loadPokemons()"
