@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 It lists the types of Pokémon and shows the Pokémon in each category.
 
-[Site](https://main--desafio-front-end-angular.netlify.app/pokemon-list)
+[Site](https://main--desafio-front-end-angular.netlify.app/)
 
 ## Development server
 
